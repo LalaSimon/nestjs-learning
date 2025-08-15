@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 export type User = {
   id: string;
   name: string;
   email: string;
 };
-
-export type CreateUser = Omit<User, 'id'>;
 
 @Injectable()
 export class UsersService {
@@ -28,7 +28,7 @@ export class UsersService {
     return user;
   }
 
-  createUser(body: Omit<User, 'id'>) {
+  createUser(body: CreateUserDto) {
     const existingUser = this.users.find(user => user.email === body.email);
 
     if (existingUser) throw new BadRequestException('Email already exist');
@@ -40,5 +40,33 @@ export class UsersService {
 
     this.users.push(newUser);
     return newUser;
+  }
+
+  updateUser(id: string, body: UpdateUserDto) {
+    const userToUpdate = this.users.find(user => user.id === id);
+
+    if (!userToUpdate) throw new NotFoundException(`User ${id} not existing`);
+
+    if (body.email) {
+      const isEmailTaken = this.users.find(user => user.email === body.email && user.id !== id);
+      if (isEmailTaken) throw new BadRequestException('Email already taken');
+    }
+
+    const updatedUser = {
+      ...userToUpdate,
+      ...body,
+    };
+
+    this.users = this.users.map(user => (user.id === id ? updatedUser : user));
+
+    return updatedUser;
+  }
+
+  deleteUser(id: string) {
+    const userToDelete = this.users.find(user => user.id === id);
+
+    if (!userToDelete) throw new NotFoundException(`User ${id} not found!`);
+
+    this.users = this.users.filter(user => user.id !== id);
   }
 }
