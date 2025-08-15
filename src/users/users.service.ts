@@ -1,16 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;
 };
 
+export type CreateUser = Omit<User, 'id'>;
+
 @Injectable()
 export class UsersService {
   private users: User[] = [
-    { id: '1', name: 'John Doe', email: 'johndoe@gmail.com' },
-    { id: '2', name: 'Janny Doe', email: 'Jannydoe@gmail.com' },
+    { id: randomUUID(), name: 'John Doe', email: 'johndoe@gmail.com' },
+    { id: randomUUID(), name: 'Janny Doe', email: 'Jannydoe@gmail.com' },
   ];
 
   getAllUsers(): User[] {
@@ -23,5 +26,19 @@ export class UsersService {
     if (!user) throw new NotFoundException(`User with ID ${id} not found`);
 
     return user;
+  }
+
+  createUser(body: Omit<User, 'id'>) {
+    const existingUser = this.users.find(user => user.email === body.email);
+
+    if (existingUser) throw new BadRequestException('Email already exist');
+
+    const newUser = {
+      id: randomUUID(),
+      ...body,
+    };
+
+    this.users.push(newUser);
+    return newUser;
   }
 }
