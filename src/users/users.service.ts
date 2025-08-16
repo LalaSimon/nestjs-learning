@@ -3,17 +3,39 @@ import { randomUUID } from 'crypto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+type Post = {
+  id: string;
+  title: string;
+};
+
 export type User = {
   id: string;
   name: string;
   email: string;
+  posts?: Post[];
 };
 
 @Injectable()
 export class UsersService {
   private users: User[] = [
-    { id: randomUUID(), name: 'John Doe', email: 'johndoe@gmail.com' },
-    { id: randomUUID(), name: 'Janny Doe', email: 'Jannydoe@gmail.com' },
+    {
+      id: randomUUID(),
+      name: 'John Doe',
+      email: 'johndoe@gmail.com',
+      posts: [{ id: randomUUID(), title: 'Johny Doe' }],
+    },
+    {
+      id: randomUUID(),
+      name: 'Janny Doe',
+      email: 'Jannydoe@gmail.com',
+      posts: [{ id: randomUUID(), title: 'Jannifer Doe' }],
+    },
+    {
+      id: randomUUID(),
+      name: 'No poster',
+      email: 'NoPoster@gmail.com',
+      posts: [],
+    },
   ];
 
   getAllUsers(): User[] {
