@@ -13,6 +13,8 @@ export type User = {
   name: string;
   email: string;
   posts?: Post[];
+  age: number;
+  isActive: boolean;
 };
 
 @Injectable()
@@ -23,18 +25,24 @@ export class UsersService {
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       posts: [{ id: randomUUID(), title: 'Johny Doe' }],
+      age: 24,
+      isActive: false,
     },
     {
       id: randomUUID(),
       name: 'Janny Doe',
       email: 'Jannydoe@gmail.com',
       posts: [{ id: randomUUID(), title: 'Jannifer Doe' }],
+      age: 40,
+      isActive: true,
     },
     {
       id: randomUUID(),
       name: 'No poster',
       email: 'NoPoster@gmail.com',
       posts: [],
+      age: 21,
+      isActive: true,
     },
   ];
 
@@ -58,6 +66,8 @@ export class UsersService {
     const newUser = {
       id: randomUUID(),
       ...body,
+      age: 20,
+      isActive: true,
     };
 
     this.users.push(newUser);
@@ -90,5 +100,15 @@ export class UsersService {
     if (!userToDelete) throw new NotFoundException(`User ${id} not found!`);
 
     this.users = this.users.filter(user => user.id !== id);
+  }
+
+  getUsersByFilter(age: number, isActive: boolean) {
+    if (!age || isActive === undefined)
+      throw new BadRequestException('Params must be included into query');
+
+    const filteredUsers = this.users.filter(user => user.age === age && user.isActive === isActive);
+    if (filteredUsers.length === 0) throw new NotFoundException('Users not found');
+
+    return filteredUsers;
   }
 }
