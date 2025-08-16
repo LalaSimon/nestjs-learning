@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-type Post = {
+export type Post = {
   id: string;
   title: string;
 };
