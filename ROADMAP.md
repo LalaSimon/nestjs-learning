@@ -9,7 +9,6 @@ This roadmap is designed specifically for frontend developers transitioning to b
 Before starting with NestJS, ensure you're comfortable with:
 
 1. **TypeScript Fundamentals**
-
    - Types and Interfaces
    - Decorators
    - Generics
@@ -17,7 +16,6 @@ Before starting with NestJS, ensure you're comfortable with:
    - Module system
 
 2. **Node.js Basics**
-
    - Event loop
    - Package management (npm/yarn)
    - CommonJS vs ESM modules
@@ -38,10 +36,10 @@ Before starting with NestJS, ensure you're comfortable with:
 - [x] NestJS CLI and project setup
 - [x] Understanding NestJS architecture
 - [x] Modules and their role
-- [ ] Controllers and routing
+- [x] Controllers and routing
 - [ ] Services and dependency injection
-- [ ] DTOs and validation
-- [ ] Exception handling
+- [x] DTOs and validation
+- [x] Exception handling
 
 **Mini Project:** Create a simple REST API for a todo list
 
@@ -212,19 +210,16 @@ Before starting with NestJS, ensure you're comfortable with:
 ## Common Pitfalls to Avoid ⚠️
 
 1. **Over-engineering**
-
    - Keep it simple initially
    - Add complexity as needed
    - Focus on maintainability
 
 2. **Poor Error Handling**
-
    - Use proper exception filters
    - Implement global error handling
    - Provide meaningful error messages
 
 3. **Ignoring TypeScript Features**
-
    - Use strict mode
    - Leverage type safety
    - Use interfaces and types properly
