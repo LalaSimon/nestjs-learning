@@ -8,12 +8,12 @@ import {
   HttpCode,
   Delete,
   Query,
-  ParseIntPipe,
   ParseBoolPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CustomAgePipe } from './pipes/custom-age.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -21,7 +21,7 @@ export class UsersController {
 
   @Get()
   getAllUsers(
-    @Query('age', ParseIntPipe) age: number,
+    @Query('age', CustomAgePipe) age: number,
     @Query('isActive', ParseBoolPipe) isActive: boolean,
   ) {
     if (age || isActive !== undefined) {
