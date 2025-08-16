@@ -1,14 +1,34 @@
-import { Controller, Get, Param, Post, Patch, Body, HttpCode, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Patch,
+  Body,
+  HttpCode,
+  Delete,
+  Query,
+  ParseBoolPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CustomAgePipe } from './pipes/custom-age.pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
   @Get()
-  getAllUsers() {
-    return this.usersService.getAllUsers();
+  getAllUsers(
+    @Query('age', CustomAgePipe) age: number,
+    @Query('isActive', ParseBoolPipe) isActive: boolean,
+  ) {
+    if (age || isActive !== undefined) {
+      return this.usersService.getUsersByFilter(age, isActive);
+    } else {
+      return this.usersService.getAllUsers();
+    }
   }
 
   @Get(':id')
