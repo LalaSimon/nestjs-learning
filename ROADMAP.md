@@ -37,7 +37,7 @@ Before starting with NestJS, ensure you're comfortable with:
 - [x] Understanding NestJS architecture
 - [x] Modules and their role
 - [x] Controllers and routing
-- [ ] Services and dependency injection
+- [x] Services and dependency injection
 - [x] DTOs and validation
 - [x] Exception handling
 
