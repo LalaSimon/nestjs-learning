@@ -1,30 +1,36 @@
 import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Patch,
   Body,
-  HttpCode,
+  Controller,
   Delete,
+  Get,
+  HttpCode,
+  Optional,
+  Param,
+  Patch,
+  Post,
   Query,
-  ParseBoolPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserRole } from './decorators/user-role.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RoleGuard } from './guards/role.guard';
 import { CustomAgePipe } from './pipes/custom-age.pipe';
+import { CustomIsActivePipe } from './pipes/custom-is-active.pipe';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @UserRole('admin')
+  @UseGuards(RoleGuard)
   getAllUsers(
-    @Query('age', CustomAgePipe) age: number,
-    @Query('isActive', ParseBoolPipe) isActive: boolean,
+    @Query('age', CustomAgePipe) @Optional() age?: number,
+    @Query('isActive', CustomIsActivePipe) @Optional() isActive?: boolean,
   ) {
-    if (age || isActive !== undefined) {
+    if (age !== undefined && isActive !== undefined) {
       return this.usersService.getUsersByFilter(age, isActive);
     } else {
       return this.usersService.getAllUsers();
