@@ -3,7 +3,8 @@ import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 @Injectable()
 export class CustomAgePipe implements PipeTransform {
   transform(value: string) {
-    if (value === undefined) throw new BadRequestException('You must provide age');
+    console.log(value);
+    if (value === undefined) return undefined;
 
     const age = parseInt(value, 10);
     if (isNaN(age)) throw new BadRequestException('Age must be a valid number');
