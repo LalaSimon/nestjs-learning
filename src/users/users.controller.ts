@@ -4,10 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-<<<<<<< HEAD
-=======
-  Optional,
->>>>>>> main
   Param,
   Patch,
   Post,

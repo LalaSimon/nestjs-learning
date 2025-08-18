@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
 
     if (roles && Array.isArray(roles) && roles.includes('admin')) {
       const data = context.switchToHttp().getRequest<Request>();
-      const isAdmin: boolean = (data.query.admin as string) === 'true';
+      const isAdmin: boolean = (data.query.isAdmin as string) === 'true';
 
       return isAdmin ? isAdmin : false;
     }

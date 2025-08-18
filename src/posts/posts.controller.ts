@@ -1,7 +1,19 @@
-import { Controller, Get, Param, Body, Post, Patch, HttpCode, Delete } from '@nestjs/common';
-import { PostsService } from './posts.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { UserRole } from 'src/users/decorators/user-role.decorator';
+import { RoleGuard } from 'src/users/guards/role.guard';
 import { CreatePostDto } from './dto/createPost.dto';
 import { EditPostDto } from './dto/editPost.dto';
+import { PostsService } from './posts.service';
 
 @Controller('posts')
 export class PostsController {
@@ -18,6 +30,8 @@ export class PostsController {
     return this.postService.createPost(id, body);
   }
 
+  @UserRole('admin')
+  @UseGuards(RoleGuard)
   @Patch('user/:userId/:postId')
   @HttpCode(200)
   editPost(
