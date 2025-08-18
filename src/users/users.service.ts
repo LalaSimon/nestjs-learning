@@ -103,10 +103,18 @@ export class UsersService {
   }
 
   getUsersByFilter(age: number, isActive: boolean) {
-    if (!age || isActive === undefined)
-      throw new BadRequestException('Params must be included into query');
+    let filteredUsers: User[] = [];
 
-    const filteredUsers = this.users.filter(user => user.age === age && user.isActive === isActive);
+    if (isActive === undefined) {
+      filteredUsers = this.users.filter(user => user.age === age);
+    }
+
+    if (age === undefined) {
+      filteredUsers = this.users.filter(user => user.isActive === isActive);
+    }
+
+    filteredUsers = this.users.filter(user => user.age === age && user.isActive === isActive);
+
     if (filteredUsers.length === 0) throw new NotFoundException('Users not found');
 
     return filteredUsers;

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  Optional,
   Param,
   Patch,
   Post,
@@ -27,10 +26,10 @@ export class UsersController {
   @UserRole('admin')
   @UseGuards(RoleGuard)
   getAllUsers(
-    @Query('age', CustomAgePipe) @Optional() age?: number,
-    @Query('isActive', CustomIsActivePipe) @Optional() isActive?: boolean,
+    @Query('age', CustomAgePipe) age: number,
+    @Query('isActive', CustomIsActivePipe) isActive: boolean,
   ) {
-    if (age !== undefined && isActive !== undefined) {
+    if (age !== undefined || isActive !== undefined) {
       return this.usersService.getUsersByFilter(age, isActive);
     } else {
       return this.usersService.getAllUsers();
