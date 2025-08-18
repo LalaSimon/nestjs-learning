@@ -42,6 +42,8 @@ export class PostsController {
     return this.postService.editPost(userId, postId, body);
   }
 
+  @UserRole('admin')
+  @UseGuards(RoleGuard)
   @Delete('user/:userId/:postId')
   @HttpCode(204)
   deletePost(@Param('userId') userId: string, @Param('postId') postId: string) {
