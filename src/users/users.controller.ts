@@ -10,10 +10,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { CurrentUser } from './decorators/get-user.decorator';
 import { UserRole } from './decorators/user-role.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RoleGuard } from './guards/role.guard';
+import { GetUserGuard } from './guards/user-guard';
 import { CustomAgePipe } from './pipes/custom-age.pipe';
 import { CustomIsActivePipe } from './pipes/custom-is-active.pipe';
 import { UsersService } from './users.service';
@@ -37,6 +39,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @CurrentUser('id')
+  @UseGuards(GetUserGuard)
   getUser(@Param('id') id: string) {
     return this.usersService.getUser(id);
   }

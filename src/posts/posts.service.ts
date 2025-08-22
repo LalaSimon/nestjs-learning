@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { CreatePostDto } from './dto/createPost.dto';
 import { randomUUID } from 'crypto';
+import { Post, UsersService } from 'src/users/users.service';
+import { CreatePostDto } from './dto/createPost.dto';
 import { EditPostDto } from './dto/editPost.dto';
 
 @Injectable()
@@ -58,5 +58,24 @@ export class PostsService {
     if (!postToDelete) throw new NotFoundException(`Post with id ${postId} not found`);
 
     user.posts = user?.posts?.filter(post => post.id !== postId);
+
+    return true;
+  }
+
+  getAllPosts() {
+    const users = this.usersService.getAllUsers();
+
+    const posts: Post[] = [];
+
+    for (const user of users) {
+      const userPosts = user.posts;
+      if (userPosts !== undefined && userPosts.length > 0) {
+        posts.push(...userPosts);
+      }
+    }
+
+    if (posts.length === 0) throw new NotFoundException('No posts found');
+
+    return posts;
   }
 }
