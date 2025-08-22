@@ -49,4 +49,11 @@ export class PostsController {
   deletePost(@Param('userId') userId: string, @Param('postId') postId: string) {
     return this.postService.deletePost(userId, postId);
   }
+
+  @UserRole('admin')
+  @UseGuards(RoleGuard)
+  @Get()
+  getAllPosts() {
+    return this.postService.getAllPosts();
+  }
 }
