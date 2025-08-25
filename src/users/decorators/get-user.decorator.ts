@@ -1,5 +1,11 @@
-import { SetMetadata } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { User } from '../users.service';
 
-export function CurrentUser(id: string) {
-  return SetMetadata('userId', id);
+interface AuthenticatedRequest extends Request {
+  user: User;
 }
+
+export const GetUser = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
+  const req = ctx.switchToHttp().getRequest<AuthenticatedRequest>();
+  return req.user;
+});
