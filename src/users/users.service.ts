@@ -50,7 +50,7 @@ export class UsersService {
     return this.users;
   }
 
-  getUser(id: string): User | undefined {
+  getUser(id: string): User {
     const user = this.users.find(user => user.id === id);
 
     if (!user) throw new NotFoundException(`User with ID ${id} not found`);
@@ -75,12 +75,11 @@ export class UsersService {
   }
 
   updateUser(id: string, body: UpdateUserDto) {
-    const userToUpdate = this.users.find(user => user.id === id);
-
-    if (!userToUpdate) throw new NotFoundException(`User ${id} not existing`);
+    const userToUpdate = this.users.find(user => user.id === id)!;
 
     if (body.email) {
       const isEmailTaken = this.users.find(user => user.email === body.email && user.id !== id);
+
       if (isEmailTaken) throw new BadRequestException('Email already taken');
     }
 
@@ -95,10 +94,6 @@ export class UsersService {
   }
 
   deleteUser(id: string) {
-    const userToDelete = this.users.find(user => user.id === id);
-
-    if (!userToDelete) throw new NotFoundException(`User ${id} not found!`);
-
     this.users = this.users.filter(user => user.id !== id);
   }
 
