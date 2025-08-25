@@ -20,13 +20,9 @@ export class GetUserGuard implements CanActivate {
     const data = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const userId = data.params[paramName];
 
-    try {
-      const user = this.userService.getUser(userId);
-      data.user = user;
-      return true;
-    } catch (err: unknown) {
-      console.log(err);
-      return false;
-    }
+    const user = this.userService.getUser(userId);
+    data.user = user;
+
+    return true;
   }
 }
