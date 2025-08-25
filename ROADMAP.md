@@ -47,8 +47,8 @@ Before starting with NestJS, ensure you're comfortable with:
 
 - [x] Pipes and validation
 - [x] Custom decorators
+- [x] Exception filters
 - [ ] Middleware
-- [ ] Exception filters
 - [ ] Configuration (environment variables)
 - [ ] Logging
 
