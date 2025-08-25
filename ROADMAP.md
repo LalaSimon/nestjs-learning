@@ -45,8 +45,8 @@ Before starting with NestJS, ensure you're comfortable with:
 
 #### Week 2: Intermediate Concepts
 
-- [ ] Pipes and validation
-- [ ] Custom decorators
+- [x] Pipes and validation
+- [x] Custom decorators
 - [ ] Middleware
 - [ ] Exception filters
 - [ ] Configuration (environment variables)
