@@ -61,7 +61,7 @@ export class UsersService {
   createUser(body: CreateUserDto) {
     const existingUser = this.users.find(user => user.email === body.email);
 
-    if (existingUser) throw new BadRequestException('Email already exist');
+    if (existingUser) throw new BadRequestException('Email already in use');
 
     const newUser = {
       id: randomUUID(),
