@@ -3,7 +3,6 @@ import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 @Injectable()
 export class CustomAgePipe implements PipeTransform {
   transform(value: string) {
-    console.log(value);
     if (value === undefined) return undefined;
 
     const age = parseInt(value, 10);

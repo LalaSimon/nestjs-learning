@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { GetUser } from './decorators/get-user.decorator';
@@ -14,6 +15,7 @@ import { SetUserContext } from './decorators/set-user.decorator';
 import { UserRole } from './decorators/user-role.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserNotFoundFilter } from './filters/users-exception.filter';
 import { RoleGuard } from './guards/role.guard';
 import { GetUserGuard } from './guards/user-guard';
 import { CustomAgePipe } from './pipes/custom-age.pipe';
@@ -41,6 +43,7 @@ export class UsersController {
   @Get(':id')
   @SetUserContext('id')
   @UseGuards(GetUserGuard)
+  @UseFilters(UserNotFoundFilter)
   getUser(@GetUser() user: User) {
     return user;
   }
